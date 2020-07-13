@@ -1,24 +1,33 @@
-const express = require('express')
-const http = require('http')
+const { ApolloServer } = require('apollo-server')
+const gql = require('graphql-tag')
+const mongoose = require('mongoose')
 
+const { MONGODB } = require('config.js')
 const PORT = process.env.PORT || 5000
 
-const app = express()
+const typeDefs = gql`
+  type Query {
+    sayHi: String!
+  }
+`
 
-const server = http.createServer(app)
+const resolvers = {
+  Query: {
+    sayHi: () => 'Hello World!!!!!'
+  }
+}
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+})
 
 const path = require('path')
 const dist = path.join(__dirname, '../dist')
 
 const router = require('./config/router')
 
-app.use((req, resp, next) => {
-  console.log(`${req.method} to ${req.url}`)
-  next()
-})
 
-// for development
-app.use('/', router)
 
 // for deployment
 // app.use('/', express.static(dist))
@@ -28,4 +37,8 @@ app.use('/', router)
 //   res.sendFile(path.join(dist, 'index.html'))
 // });
 
-server.listen(PORT, () => console.log(`Server up and running on port ${PORT}`))
+mongoose.connect(MONGODB, { useNewUrlParser: true })
+  .then(() => {
+    return server.listen(PORT, () => console.log(`Server up and running on port ${PORT}`))
+  })
+
