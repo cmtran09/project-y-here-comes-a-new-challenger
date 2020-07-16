@@ -13,7 +13,10 @@ const PORT = process.env.PORT || 5000
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  // authentication middleware from apollo server
+  // request and responce from express, forward body to context
+  context: ({ req }) => ({ req })
 })
 
 const path = require('path')

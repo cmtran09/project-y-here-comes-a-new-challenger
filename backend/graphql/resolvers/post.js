@@ -1,4 +1,5 @@
 const Post = require('../../models/Post')
+const checkAuth = require('../../utils/checkAuth')
 
 module.exports = {
   Query: {
@@ -11,16 +12,30 @@ module.exports = {
       }
     },
     async getPost(_, { postId }) {
-      try{
+      try {
         const post = await Post.findById(postId)
-        if(post){
+        if (post) {
           return post
         } else {
           throw new Error('Post not found')
         }
-      } catch(err){
+      } catch (err) {
         throw new Error(err)
       }
+    },
+  },
+  Mutation: {
+    async createPost(_, { body }, context) {
+      const user = checkAuth(context)
+      // passes authorisation
+      const newPost = new Post({
+        body,
+        user: user.id,
+        username: user.username,
+        createdAt: new Date().toISOString()
+      })
+      const post = await newPost.save()
+      return post
     }
   }
 }
