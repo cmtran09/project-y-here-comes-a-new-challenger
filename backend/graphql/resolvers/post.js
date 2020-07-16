@@ -10,16 +10,15 @@ module.exports = {
         throw new Error(err)
       }
     },
-    async getPost(parent, { postId }) {
-      try {
+    async getPost(_, { postId }) {
+      try{
         const post = await Post.findById(postId)
-        if (post) {
+        if(post){
           return post
         } else {
           throw new Error('Post not found')
         }
-      }
-      catch (err) {
+      } catch(err){
         throw new Error(err)
       }
     }
