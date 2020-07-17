@@ -1,4 +1,4 @@
-const { ApolloServer } = require('apollo-server')
+const { ApolloServer, PubSub } = require('apollo-server')
 const gql = require('graphql-tag')
 const mongoose = require('mongoose')
 
@@ -11,12 +11,14 @@ const Users = require('./models/Users')
 const { MONGODB } = require('../config.js')
 const PORT = process.env.PORT || 5000
 
+const pubSub = new PubSub()
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   // authentication middleware from apollo server
   // request and responce from express, forward body to context
-  context: ({ req }) => ({ req })
+  context: ({ req }) => ({ req, pubSub })
 })
 
 const path = require('path')

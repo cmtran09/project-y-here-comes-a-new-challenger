@@ -36,6 +36,10 @@ module.exports = {
         createdAt: new Date().toISOString()
       })
       const post = await newPost.save()
+      // PUBSUB EVENT WEBSOCKET notifaction that new post made
+      context.pubSub.publish('NEW_POST', {
+        newPost: post
+      })
       return post
     },
     async deletePost(_, { postId }, context) {
@@ -72,6 +76,11 @@ module.exports = {
         await post.save()
         return post
       } else throw new UserInputError('Post not found')
+    }
+  },
+  Subscription: {
+    newPost: {
+      subscribe(_, __, { pubSub }) { return pubSub.asyncIterator('NEW_POST') } // convention for events to be all CAPs
     }
   }
 }
