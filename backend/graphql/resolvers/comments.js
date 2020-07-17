@@ -41,9 +41,5 @@ module.exports = {
         }
       }
     }
-    // async likeComment(_, { postId, commentId }) {
-    //   const post = await Post.findById(postId)
-    //   post.likes
-    // }
   }
 }
