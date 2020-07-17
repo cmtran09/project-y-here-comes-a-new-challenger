@@ -4,7 +4,7 @@ const { AuthenticationError } = require('apollo-server')
 
 module.exports = {
   Query: {
-    async getPosts() {
+    getPosts: async () => {
       try {
         const posts = await Post.find().sort({ createdAt: -1 })
         return posts
@@ -49,6 +49,8 @@ module.exports = {
           throw new AuthenticationError('You are not authorised to delete this post')
         }
       } catch (err) {
+        // console.log(user.username, 'user')
+        // console.log(post.username, 'post')
         throw new Error(err)
       }
     }
