@@ -42,6 +42,22 @@ module.exports = {
       })
       return post
     },
+    async editPost(_, { postId, body }, context) {
+      let updatedPost = {}
+      updatedPost.body = body
+      const user = checkAuth(context)
+      try {
+        const post = await Post.findById(postId)
+        if (user.username === post.username) {
+          const editedPost = await Post.findByIdAndUpdate(postId, updatedPost)
+          return editedPost
+        } else {
+          throw new AuthenticationError('You are not authorised to edit this post')
+        }
+      } catch (err) {
+        throw new Error(err)
+      }
+    },
     async deletePost(_, { postId }, context) {
       const user = checkAuth(context)
       try {
