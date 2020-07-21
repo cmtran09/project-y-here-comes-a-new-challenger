@@ -90,6 +90,25 @@ module.exports = {
         throw new Error(err)
       }
     },
+    async addNewChallenger(_, { postId }, context) {
+      const user = checkAuth(context)
+      const post = await Post.findById(postId)
+      if (post) {
+        if (post.challengers.find(elem => elem.username === user.username)) {
+          post.challengers = post.challengers.filter(elem => elem.username !== user.username)
+        } else if (post.username === user.username) {
+          throw new Error('You can not challenge yourself')
+        } else {
+          post.challengers.push({
+            username: user.username,
+            enteredAt: new Date().toISOString(),
+            isChallenger: false,
+          })
+        }
+        await post.save()
+        return post
+      }
+    },
     async likePost(_, { postId }, context) {
       const user = checkAuth(context)
       const post = await Post.findById(postId)
@@ -108,7 +127,7 @@ module.exports = {
         await post.save()
         return post
       } else throw new UserInputError('Post not found')
-    }
+    },
   },
   Subscription: {
     newPost: {

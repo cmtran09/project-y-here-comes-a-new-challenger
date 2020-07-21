@@ -18,6 +18,12 @@ module.exports = gql`
     createdAt: String!
     username: String!
   }
+  type Challenger{
+    id: ID!
+    enteredAt: String!
+    username: String!
+    isChallenger: Boolean!
+  }
   type Post{
     id: ID!
     body: String!
@@ -30,6 +36,7 @@ module.exports = gql`
     long: Float
     lat: Float
     isAccepted: Boolean
+    challengers: [Challenger]
     outcome: Outcome
   }
   type User {
@@ -52,7 +59,7 @@ module.exports = gql`
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
-    login(username: String!, password:String!): User!
+    login(username: String!, password: String!): User!
     createPost(body: String!, long: Float, lat: Float, sport: String!): Post!
     editPost(postId: ID!, body: String!): Post!
     deletePost(postId: ID!): String! 
@@ -60,6 +67,7 @@ module.exports = gql`
     editComment(postId: ID!, commentId: ID!, body: String!): Post!
     deleteComment(postId: ID!, commentId: ID!): Post!
     likePost(postId: ID!): Post!
+    addNewChallenger(postId: ID!): Post!
   }
   type Subscription {
     newPost: Post!

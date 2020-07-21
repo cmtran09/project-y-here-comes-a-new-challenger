@@ -12,7 +12,7 @@ const postSchema = new Schema({
     finalScore: String, 
     winner: String
   },
-  Challengers: [
+  challengers: [
     {
       username: String,
       enteredAt: String,
