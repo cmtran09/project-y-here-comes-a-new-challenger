@@ -18,7 +18,8 @@ module.exports = {
         post.comments.unshift({
           body,
           username: user.username,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          editedAt: new Date().toISOString()
         })
         await post.save()
         return post
@@ -27,6 +28,7 @@ module.exports = {
     async editComment(_, { postId, commentId, body }, context) {
       let updatedComment = {}
       updatedComment.body = body
+      updatedComment.editedAt = new Date().toISOString()
       const user = checkAuth(context)
       if (body.trim() === '') {
         throw new UserInputError('Empty comment', {
@@ -41,6 +43,7 @@ module.exports = {
           const commentIndex = post.comments.findIndex(elem => elem.id === commentId)
           if (post.comments[commentIndex].username === user.username) {
             post.comments[commentIndex].body = updatedComment.body
+            post.comments[commentIndex].editedAt = updatedComment.editedAt
             post.save()
             return post
           } else {

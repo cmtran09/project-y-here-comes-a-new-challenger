@@ -33,6 +33,7 @@ module.exports = {
         body,
         user: user.id,
         username: user.username,
+        editedAt: new Date().toISOString(),
         createdAt: new Date().toISOString()
       })
       const post = await newPost.save()
@@ -45,6 +46,7 @@ module.exports = {
     async editPost(_, { postId, body }, context) {
       let updatedPost = {}
       updatedPost.body = body
+      updatedPost.editedAt = new Date().toISOString()
       const user = checkAuth(context)
       try {
         const post = await Post.findById(postId)
