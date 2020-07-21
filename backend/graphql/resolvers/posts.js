@@ -24,15 +24,31 @@ module.exports = {
         throw new Error(err)
       }
     },
+    async getPostsBySport(_, { sport }) {
+      try {
+        const posts = await Post.find().sort({ createdAt: -1 })
+        const filteredPosts = posts.filter(post => post.sport.toLowerCase() === sport.toLowerCase())
+        if (filteredPosts) {
+          return filteredPosts
+        } else {
+          throw new Error('Sport not found')
+        }
+      } catch (err) {
+        throw new Error(err)
+      }
+    }
   },
   Mutation: {
-    async createPost(_, { body }, context) {
+    async createPost(_, { body, sport, long, lat }, context) {
       const user = checkAuth(context)
       // passes authorisation
       const newPost = new Post({
         body,
         user: user.id,
         username: user.username,
+        sport,
+        long,
+        lat,
         editedAt: new Date().toISOString(),
         createdAt: new Date().toISOString()
       })

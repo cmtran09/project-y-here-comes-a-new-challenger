@@ -54,7 +54,6 @@ module.exports = {
       } catch (err) {
         throw new Error(err)
       }
-      const post = await Post.findById(postId)
     },
     async deleteComment(_, { postId, commentId }, context) {
       const user = checkAuth(context)

@@ -3,6 +3,22 @@ const { model, Schema } = require('mongoose')
 const postSchema = new Schema({
   body: String,
   username: String,
+  sport: String,
+  long: Number,
+  lat: Number,
+  isAccepted: Boolean, 
+  outcome: {
+    isComplete: Boolean, 
+    finalScore: String, 
+    winner: String
+  },
+  Challengers: [
+    {
+      username: String,
+      enteredAt: String,
+      isChallenger: Boolean
+    }
+  ],
   createdAt: String,
   editedAt: String,
   comments: [

@@ -8,6 +8,11 @@ module.exports = gql`
     username: String!
     body: String!
   }
+  type Outcome {
+    isComplete: Boolean 
+    finalScore: String,
+    winner: String
+  }
   type Like{
     id: ID!
     createdAt: String!
@@ -16,11 +21,16 @@ module.exports = gql`
   type Post{
     id: ID!
     body: String!
+    sport: String!
     createdAt: String!
     editedAt: String!
     username: String!
     comments: [Comment]!
     likes: [Like]!
+    long: Float
+    lat: Float
+    isAccepted: Boolean
+    outcome: Outcome
   }
   type User {
     id: ID!
@@ -31,6 +41,7 @@ module.exports = gql`
   }
   type Query {
     getPosts: [Post]
+    getPostsBySport(sport:String!): [Post]
     getPost(postId:ID!): Post
   }
   input RegisterInput {
@@ -41,8 +52,8 @@ module.exports = gql`
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
-    login(username: String!,password:String!): User!
-    createPost(body: String!): Post!
+    login(username: String!, password:String!): User!
+    createPost(body: String!, long: Float, lat: Float, sport: String!): Post!
     editPost(postId: ID!, body: String!): Post!
     deletePost(postId: ID!): String! 
     createComment(postId: ID!, body: String!): Post!
