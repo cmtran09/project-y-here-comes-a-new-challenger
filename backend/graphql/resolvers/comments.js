@@ -24,6 +24,35 @@ module.exports = {
         return post
       } else throw new UserInputError('Post not found')
     },
+    async editComment(_, { postId, commentId, body }, context) {
+      let updatedComment = {}
+      updatedComment.body = body
+      const user = checkAuth(context)
+      if (body.trim() === '') {
+        throw new UserInputError('Empty comment', {
+          errors: {
+            body: 'Comment must not be empty'
+          }
+        })
+      }
+      try {
+        const post = await Post.findById(postId)
+        if (post) {
+          const commentIndex = post.comments.findIndex(elem => elem.id === commentId)
+          if (post.comments[commentIndex].username === user.username) {
+            post.comments[commentIndex].body = updatedComment.body
+            post.save()
+            return post
+          } else {
+            // not owner of comment
+          throw new AuthenticationError('You can not edit someone else\'s comment')
+          }
+        }
+      } catch (err) {
+        throw new Error(err)
+      }
+      const post = await Post.findById(postId)
+    },
     async deleteComment(_, { postId, commentId }, context) {
       const user = checkAuth(context)
       const post = await Post.findById(postId)
@@ -37,7 +66,7 @@ module.exports = {
           return post
         } else {
           // not owner of comment
-          throw new AuthenticationError('You can not delete someone elses comment')
+          throw new AuthenticationError('You can not delete someone else\'s comment')
         }
       }
     }

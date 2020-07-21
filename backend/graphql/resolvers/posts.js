@@ -69,8 +69,6 @@ module.exports = {
           throw new AuthenticationError('You are not authorised to delete this post')
         }
       } catch (err) {
-        // console.log(user.username, 'user')
-        // console.log(post.username, 'post')
         throw new Error(err)
       }
     },
