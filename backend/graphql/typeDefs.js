@@ -38,6 +38,9 @@ module.exports = gql`
     isAccepted: Boolean
     challengers: [Challenger]
     outcome: Outcome
+    likeCount: Int!
+    commentCount: Int!
+    challengersCount: Int!
   }
   type User {
     id: ID!
