@@ -106,6 +106,10 @@ module.exports = {
           })
         }
         await post.save()
+        // TODO make a listener for notifcation for new challenger added
+        context.pubSub.publish('NEW_CHALLENGER', {
+          name: post.challengers
+        })
         return post
       }
     },
@@ -132,6 +136,9 @@ module.exports = {
   Subscription: {
     newPost: {
       subscribe(_, __, { pubSub }) { return pubSub.asyncIterator('NEW_POST') } // convention for events to be all CAPs
+    },
+    newChallenger: {
+      subscribe(_, __, { pubSub }) { return pubSub.asyncIterator('NEW_CHALLENGER') } // convention for events to be all CAPs
     }
   }
 }

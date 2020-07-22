@@ -71,5 +71,6 @@ module.exports = gql`
   }
   type Subscription {
     newPost: Post!
+    newChallenger(postId: ID!): Post
   }
 `
