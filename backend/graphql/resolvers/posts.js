@@ -111,6 +111,33 @@ module.exports = {
           name: post.challengers
         })
         return post
+      } else {
+        throw new Error('Post not found')
+      }
+    },
+    async acceptChallenger(_, { postId, challengerId }, context) {
+      const { username } = checkAuth(context)
+      try {
+        const post = await Post.findById(postId)
+        if (post) { //check if post exists
+          if (username === post.username) {  // check if owner of post
+            // only owner of challenger may accept who the challenger is. proceed
+            if (post.challengers.find(elem => elem.isChallenger === true)) {  //check if post already has a challenger, only can have one
+              throw new Error('Only one challager can be accepted')
+            } else {
+              const chosenChallengerIndex = post.challengers.findIndex(elem => elem.id === challengerId)
+              post.challengers[chosenChallengerIndex].isChallenger = true
+              post.save()
+              return post
+            }
+          } else {
+            throw new Error('Only the onwner of the post is authtorized to accept who the challenger is')
+          }
+        } else {
+          throw new Error('Post not found')
+        }
+      } catch (err) {
+        throw new Error(err)
       }
     },
     async likePost(_, { postId }, context) {
