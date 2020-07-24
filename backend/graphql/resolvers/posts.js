@@ -106,7 +106,7 @@ module.exports = {
           })
         }
         await post.save()
-        // TODO make a listener for notifcation for new challenger added
+        // TODO make a listener to notify when a new challenger is added
         context.pubSub.publish('NEW_CHALLENGER', {
           name: post.challengers
         })
