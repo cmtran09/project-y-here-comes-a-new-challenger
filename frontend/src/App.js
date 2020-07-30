@@ -9,9 +9,9 @@ import { ApolloProvider } from '@apollo/react-hooks'
 
 import './styles/styles.scss'
 
-import Home from './components/Home/Home'
-import Login from './components/Login/Login'
-import Register from './components/Register/Register'
+import Home from './pages/Home/Home'
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/'
