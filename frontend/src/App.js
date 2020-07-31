@@ -7,8 +7,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import { ApolloProvider } from '@apollo/react-hooks'
 
+// import 'semantic-ui-css/semantic.min.css'
 import './styles/styles.scss'
 
+import { Container } from 'semantic-ui-react'
+
+import NavBar from './components/NavBar/NavBar'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
@@ -25,12 +29,15 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
-      <Switch>
+      <Container>
+        {/* <Header /> */}
+        {/* <Switch> */}
+        <NavBar />
         <Route path="/" exact component={Home} />
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
-      </Switch>
+        {/* </Switch> */}
+      </Container>
     </BrowserRouter>
   )
 }

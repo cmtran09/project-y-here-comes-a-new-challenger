@@ -1,5 +1,5 @@
 import React from 'react'
-import App from './App'
+import App from './App.js'
 import ReactDOM from 'react-dom'
 import ApolloClient from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -15,14 +15,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
-export default (
+export default ApolloProviderApp(
   <ApolloProvider client={client}>
     <App />
   </ApolloProvider>
 )
 
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>, document.getElementById('root')
-)
+// ReactDOM.render(
+//   <ApolloProvider client={client}>
+//     <App />
+//   </ApolloProvider>, document.getElementById('root')
+// )
