@@ -3,8 +3,11 @@ import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 export default function NavBar() {
-  const [activeItem, setActiveItem] = useState()
-
+  
+  const pathname = window.location.pathname
+  const path = pathname === '/' ? 'home' : pathname.substr(1)
+  const [activeItem, setActiveItem] = useState(path)
+  
   const handleItemClick = (e, { name }) => setActiveItem(name)
 
   console.log('nav')
