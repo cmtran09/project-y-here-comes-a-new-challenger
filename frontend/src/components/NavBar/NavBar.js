@@ -40,6 +40,8 @@ export default function NavBar() {
           name='logout'
           active={activeItem === 'logout'}
           onClick={handleItemClick}
+          as={Link}
+          to='/logout'
         />
       </Menu.Menu>
     </Menu>

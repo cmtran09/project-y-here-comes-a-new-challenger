@@ -16,6 +16,7 @@ import NavBar from './components/NavBar/NavBar'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
+import Logout from './pages/Logout/Logout'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/'
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/" exact component={Home} />
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
+        <Route path="/logout" exact component={Logout} />
         {/* </Switch> */}
       </Container>
     </BrowserRouter>
