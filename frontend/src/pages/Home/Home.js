@@ -14,7 +14,7 @@ export default function Home() {
   console.log("hello home :)")
   return (
     <div>
-      hello world HOme
+      <h1>hello world HOme</h1>
     </div>
   )
 }
